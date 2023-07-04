@@ -1,0 +1,5 @@
+# Byte-compiled / optimized / DDL files
+__pycache__/
+
+# Distribution / packaging
+.Python
