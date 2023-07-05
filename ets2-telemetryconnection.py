@@ -48,7 +48,7 @@ def script_properties():
     return props
 
 # Called before data settings are saved
-def script_save():
+def script_save(settings):
     obs.obs_save_sources()
 
 # ----------------------------------------------------
@@ -103,7 +103,7 @@ def clean_data(data, source_text):
     
     return str(data)
 
-# Transforms ISO(8601) time into Hours
+# Transforms remainingTime data from ISO(8601) time into Hours
 def calculate_remainingTime(data):
     remainingTime = datetime.datetime.fromisoformat(data)
     if remainingTime.day > 1:
