@@ -47,6 +47,10 @@ def script_properties():
     obs.obs_properties_add_button(props, "button", "Refresh", refresh_pressed)
     return props
 
+# Called before data settings are saved
+def script_save():
+    obs.obs_save_sources()
+
 # ----------------------------------------------------
 # Updates text propertie of Text(GDI+) source
 def update_text():
@@ -77,7 +81,7 @@ def update_text():
                 response_data = str(err.reason)
                 obs.script_log(obs.LOG_WARNING, "Error opening URL '" + url + "': " + response_data)
                 obs.remove_current_callback()
-
+                obs.source_list_release(sources)
         obs.source_list_release(sources)
 
 # Refresh data when Refresh button is pressed
