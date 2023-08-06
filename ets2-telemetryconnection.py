@@ -10,6 +10,7 @@ interval    = 10
 continuous_update = False
 autohide_job_info = False
 job_info_source_name = ""
+active      = False
 
 # ----------------------------------------------------
 # Description displayed in the Scripts dialog window
@@ -25,6 +26,7 @@ def script_update(settings):
     interval = obs.obs_data_get_int(settings, "interval")
     autohide_job_info = obs.obs_data_get_bool(settings, "autohide_job_info")
     job_info_source_name = obs.obs_data_get_string(settings, "job_info_source_name")
+    active = obs.obs_data_get_bool(settings, "active")
 
     obs.timer_remove(update_text)
     if url!= "":
@@ -36,10 +38,12 @@ def script_defaults(settings):
     obs.obs_data_set_default_int(settings, "interval", 10)
     obs.obs_data_set_default_bool(settings, "autohide_job_info", False)
     obs.obs_data_set_default_string(settings, "job_info_source_name", "")
+    obs.obs_data_set_default_bool(settings, "active", False)
 
 # Called to display the properties GUI
 def script_properties():
     props = obs.obs_properties_create()
+    obs.obs_properties_add_bool(props, "active", "Activate")
     obs.obs_properties_add_text(props, "url", "URL", obs.OBS_TEXT_DEFAULT)
     obs.obs_properties_add_int(props, "interval", "Update interval (s)", 1, 30, 1)
     obs.obs_properties_add_bool(props, "autohide_job_info", "Auto-hide Job info")
@@ -55,7 +59,7 @@ def script_save(settings):
 # Updates text propertie of Text(GDI+) source
 def update_text():
     global url, interval, autohide_job_info, job_info_source_name
-    if url != '':
+    if active and url != '':
         sources = obs.obs_enum_sources()        
         if sources:
             try:
